@@ -1,41 +1,49 @@
 <!doctype html><html><head><meta charset="utf-8"><style>
+@font-face{font-family:'Abyssinica SIL';src:url(fonts/Abyssinica.ttf)}
+@font-face{font-family:Sora;font-weight:400;src:url(fonts/Sora-400.ttf)}
+@font-face{font-family:Sora;font-weight:600;src:url(fonts/Sora-600.ttf)}
+@font-face{font-family:Sora;font-weight:700;src:url(fonts/Sora-700.ttf)}
+@font-face{font-family:Sora;font-weight:800;src:url(fonts/Sora-800.ttf)}
+:root{--lilac:#E3BFFD;--purple:#5C0099;--yellow:#FFEB33;--cream:#FFF583;--ink:#03071E;--tint:#D6ACF3}
 *{margin:0;padding:0;box-sizing:border-box}
 html,body{width:1200px;height:200px;overflow:hidden}
-body{font-family:'Inter Display','Inter',sans-serif;background:#FFF3E2;position:relative;color:#1B1B3A}
+body{font-family:Sora,sans-serif;background:var(--lilac);position:relative;color:var(--ink)}
 svg.sq{position:absolute;inset:0}
-.blob{position:absolute;border-radius:50%}
-.head{position:absolute;left:470px;top:28px;width:300px}
-.head small{display:inline-block;background:#1B1B3A;color:#FFC93C;font-weight:800;font-size:12px;letter-spacing:2px;padding:4px 10px;border-radius:999px;transform:rotate(-3deg)}
-.head h1{margin-top:8px;font-weight:900;font-size:31px;line-height:1;letter-spacing:-1px}
-.head h1 .c{color:#FF5A4E}.head h1 .t{color:#1FA595}.head h1 .p{color:#7B5CFF}
-.stats{position:absolute;left:462px;top:136px;display:flex;gap:8px}
-.st{border:2.5px solid #1B1B3A;border-radius:12px;padding:4px 10px 5px;box-shadow:3px 3px 0 #1B1B3A;font-size:11px;font-weight:700;line-height:1.05}
-.st b{display:block;font-size:20px;font-weight:900;letter-spacing:-.5px}
-.s1{background:#FFC93C;transform:rotate(-4deg)}.s2{background:#8FE3D6;transform:rotate(3deg)}.s3{background:#FFB3C7;transform:rotate(-2deg)}
-.card{position:absolute;right:52px;top:38px;background:#fff;border:2.5px solid #1B1B3A;border-radius:16px;padding:6px 8px;box-shadow:6px 6px 0 #1B1B3A;transform:rotate(2.5deg)}
-.card img{display:block;width:372px;height:auto;border-radius:8px}
-.tape{position:absolute;top:-12px;left:50%;width:84px;height:22px;margin-left:-42px;background:rgba(255,201,60,.85);transform:rotate(-6deg)}
-.burst{position:absolute;right:20px;top:118px;width:74px;height:74px;transform:rotate(12deg)}
-.burst span{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:'Noto Color Emoji';font-size:30px}
-.spark{position:absolute;font-size:22px;color:#FF5A4E;font-weight:900}
+.head{position:absolute;left:446px;top:24px;width:340px}
+.head small{display:inline-block;background:var(--purple);color:var(--yellow);font-weight:800;font-size:11px;letter-spacing:2px;padding:5px 11px;border-radius:999px;transform:rotate(-3deg)}
+.head h1{margin-top:6px;font-family:'Abyssinica SIL',serif;font-weight:400;font-size:30px;line-height:1.02;letter-spacing:-.5px;color:var(--purple)}
+.head h1 i{font-style:normal;color:var(--ink)}
+.hl{background:linear-gradient(transparent 55%,var(--yellow) 55%,var(--yellow) 92%,transparent 92%);padding:0 2px}
+.stats{position:absolute;left:442px;top:132px;display:flex;gap:9px}
+.st{border:2.5px solid var(--ink);border-radius:10px;padding:5px 11px 6px;box-shadow:3px 3px 0 var(--ink);font-size:10.5px;font-weight:600;line-height:1.1}
+.st b{display:block;font-size:19px;font-weight:800;letter-spacing:-.5px}
+.s1{background:var(--yellow);transform:rotate(-4deg)}
+.s2{background:var(--purple);color:#fff;transform:rotate(3deg)}.s2 b{color:var(--yellow)}
+.s3{background:#fff;transform:rotate(-2deg)}
+.card{position:absolute;right:58px;top:36px;background:#fff;border:2.5px solid var(--ink);border-radius:14px;padding:6px 8px;box-shadow:6px 6px 0 var(--purple);transform:rotate(2.5deg)}
+.card img{display:block;width:348px;height:auto;border-radius:8px}
+.tape{position:absolute;top:-12px;left:50%;width:84px;height:22px;margin-left:-42px;background:rgba(255,235,51,.9);transform:rotate(-6deg)}
+.logo{position:absolute;right:18px;top:116px;width:76px;height:76px;border-radius:50%;transform:rotate(12deg);box-shadow:3px 3px 0 var(--ink);border:2.5px solid var(--ink)}
+.spark{position:absolute;font-size:22px;font-weight:800;color:var(--purple)}
 </style></head><body>
 <svg class="sq" viewBox="0 0 1200 200" fill="none" stroke-linecap="round">
- <path d="M-20 150 C 40 60, 90 200, 150 110 S 250 20, 300 120 S 380 190, 440 90" stroke="#FF5A4E" stroke-width="10"/>
- <path d="M-20 60 C 30 10, 70 110, 120 60 S 200 -10, 250 50 S 330 130, 380 40 S 430 0, 460 30" stroke="#1FA595" stroke-width="7"/>
- <path d="M60 210 C 100 160, 160 230, 200 175 S 290 150, 330 200" stroke="#7B5CFF" stroke-width="6"/>
- <circle cx="330" cy="40" r="14" fill="#FFC93C"/>
- <circle cx="410" cy="170" r="9" fill="#FFB3C7"/>
- <circle cx="1105" cy="22" r="7" fill="#1FA595"/>
+ <path d="M-20 150 C 40 60, 90 200, 150 110 S 250 20, 300 120 S 380 190, 440 90" stroke="#5C0099" stroke-width="11"/>
+ <path d="M-20 60 C 30 10, 70 110, 120 60 S 200 -10, 250 50 S 330 130, 380 40 S 430 0, 460 30" stroke="#FFEB33" stroke-width="8"/>
+ <path d="M60 210 C 100 160, 160 230, 200 175 S 290 150, 330 200" stroke="#03071E" stroke-width="5"/>
+ <path d="M150 -10 C 180 30, 220 -5, 250 25" stroke="#fff" stroke-width="5"/>
+ <circle cx="330" cy="38" r="14" fill="#FFEB33" stroke="#03071E" stroke-width="2.5"/>
+ <circle cx="410" cy="170" r="9" fill="#fff"/>
+ <circle cx="1105" cy="20" r="7" fill="#5C0099"/>
 </svg>
-<div class="spark" style="left:438px;top:22px">✳</div>
-<div class="spark" style="left:770px;top:150px;color:#7B5CFF">✳</div>
+<div class="spark" style="left:416px;top:16px">✳</div>
+<div class="spark" style="left:775px;top:152px;color:#03071E">✳</div>
 <div class="head"><small>GENERALIST WORLD</small>
-<h1><span class="c">Community</span> · <span class="t">Newsletter</span> · <span class="p">Events</span></h1></div>
+<h1><span class="hl">Community</span><i>,</i> Newsletter <i>&amp;</i> Events</h1></div>
 <div class="stats">
  <div class="st s1"><b>800+</b>members</div>
- <div class="st s2"><b>30+</b>countries</div>
- <div class="st s3"><b>80+</b>meetups</div>
+ <div class="st s2"><b>55,000</b>readers</div>
+ <div class="st s3"><b>100s</b>of events</div>
 </div>
 <div class="card"><div class="tape"></div><img src="comment.png"></div>
-<svg class="burst" viewBox="0 0 100 100" style="position:absolute;right:16px;top:122px;width:70px;height:70px"><polygon fill="#FF5A4E" stroke="#1B1B3A" stroke-width="4" points="50,2 60,22 82,12 78,36 98,44 82,60 94,80 70,80 64,98 50,84 36,98 30,80 6,80 18,60 2,44 22,36 18,12 40,22"/><text x="50" y="62" text-anchor="middle" font-family="Inter Display" font-weight="900" font-size="26" fill="#fff">GW</text></svg>
+<img class="logo" src="logo.png">
 </body></html>
