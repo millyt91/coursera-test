@@ -10,17 +10,16 @@ body{font-family:'Inter Display','Inter',sans-serif;background:#0f1b3d;position:
 .dots{position:absolute;left:330px;top:30px;width:150px;height:140px;
  background-image:radial-gradient(rgba(255,255,255,.22) 1.6px,transparent 1.8px);background-size:16px 16px}
 .bar{position:absolute;right:0;top:0;bottom:0;width:8px;background:linear-gradient(#ff6f61,#ffb347)}
-.quote{position:absolute;right:70px;top:50%;transform:translateY(-50%);text-align:right;width:600px}
-.mark{position:absolute;right:560px;top:-34px;font-family:'Liberation Serif',serif;font-size:130px;color:#ff6f61;line-height:1;opacity:.9}
-.text{font-weight:800;font-size:46px;letter-spacing:-1px;line-height:1.1}
-.text b{color:#ffb347;font-weight:900}
-.emoji{font-family:'Noto Color Emoji';font-size:40px;vertical-align:2px;margin-left:6px}
-.who{margin-top:14px;font-size:16px;font-weight:600;letter-spacing:.3px;color:rgba(255,255,255,.85)}
-.who span{color:rgba(255,255,255,.55);font-weight:500}
-.rule{display:inline-block;width:28px;height:2px;background:#ff6f61;vertical-align:middle;margin-right:10px}
+.wrap{position:absolute;right:56px;top:50%;transform:translateY(-50%);display:flex;align-items:center;gap:26px}
+.kick{text-align:right;color:#fff}
+.kick small{display:block;font-size:13px;font-weight:600;letter-spacing:2.5px;text-transform:uppercase;color:#ffb347;margin-bottom:6px}
+.kick div{font-size:28px;font-weight:800;letter-spacing:-.5px;line-height:1.05}
+.kick .sep{color:#ff6f61}
+.card{position:relative;background:#fff;border-radius:14px;padding:8px 10px;box-shadow:0 18px 40px rgba(5,10,30,.45),0 0 0 1px rgba(255,255,255,.15)}
+.card img{display:block;width:480px;height:auto}
+.mark{position:absolute;left:-22px;top:-40px;font-family:'Liberation Serif',serif;font-size:110px;color:#ff6f61;line-height:1}
 </style></head><body>
 <div class="bg"></div><div class="gw">GW</div><div class="dots"></div><div class="bar"></div>
-<div class="quote"><div class="mark">&ldquo;</div>
-<div class="text">GW is <b>THE</b> community<span class="emoji">🫶</span></div>
-<div class="who"><i class="rule"></i>Valeria Collu <span>· Leadership Coach</span></div></div>
+<div class="wrap"><div class="kick"><small>GW</small><div>Community<br><span class="sep">·</span> Newsletter<br><span class="sep">·</span> Events</div></div>
+<div class="card"><div class="mark">&ldquo;</div><img src="comment.png"></div></div>
 </body></html>
