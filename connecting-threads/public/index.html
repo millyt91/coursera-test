@@ -1,0 +1,254 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Connecting Threads</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Abyssinica+SIL&family=Caveat:wght@600&family=Sora:wght@400;600;700&display=swap">
+<style>
+  /* Generalist World palette: lilac paper, deep purple, highlighter yellow. One column, phone first. */
+  :root {
+    --paper: #F6EDFE;
+    --lilac: #E3BFFD;
+    --card: #FFFFFF;
+    --ink: #03071E;
+    --muted: #423B5C;
+    --purple: #5C0099;
+    --yellow: #FFF583;
+    --display: "Abyssinica SIL", Georgia, serif;
+    --body: "Sora", system-ui, sans-serif;
+    --hand: "Caveat", "Brush Script MT", cursive;
+    color-scheme: light;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--paper); color: var(--ink); font: 16px/1.5 var(--body); }
+  main { max-width: 640px; margin: 0 auto; padding: 40px 16px 64px; display: flex; flex-direction: column; gap: 28px; }
+  .eyebrow { font-size: 12px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--purple); margin: 0; }
+  h1 { font: 400 clamp(44px, 11vw, 64px)/1 var(--display); margin: 8px 0 12px; letter-spacing: -.01em; }
+  h2 { font: 400 28px/1.15 var(--display); margin: 0; text-wrap: balance; }
+  .lede { margin: 0; font-size: 18px; color: var(--muted); }
+  .code { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+  .code div { background: var(--lilac); border-radius: 8px; padding: 12px; }
+  .code b { display: block; font-size: 14px; }
+  .code span { font-size: 13px; color: var(--muted); }
+  @media (max-width: 520px) { .code { grid-template-columns: 1fr; } }
+  .panel { background: var(--card); border: 2px solid var(--ink); border-radius: 8px; padding: 20px; box-shadow: 6px 6px 0 var(--purple); display: flex; flex-direction: column; gap: 16px; }
+  .panel-head { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; flex-wrap: wrap; }
+  .step { font: 600 26px/1 var(--hand); color: var(--purple); }
+  label { display: flex; flex-direction: column; gap: 6px; font-size: 14px; font-weight: 600; }
+  input { font: inherit; padding: 11px 12px; border: 2px solid var(--ink); border-radius: 8px; background: var(--paper); color: var(--ink); min-width: 0; }
+  input:focus-visible, button:focus-visible, a:focus-visible { outline: 3px solid var(--purple); outline-offset: 2px; }
+  .hint { font-weight: 400; color: var(--muted); }
+  button { font: 700 15px var(--body); padding: 12px 18px; border-radius: 999px; border: 2px solid var(--ink); background: var(--yellow); color: var(--ink); cursor: pointer; }
+  button:hover { background: #FFEF3D; }
+  button:disabled { cursor: default; background: var(--lilac); }
+  button.quiet { background: transparent; padding: 8px 14px; font-weight: 600; }
+  .error { margin: 0; color: #A0002A; font-weight: 600; font-size: 14px; }
+  .mine { background: var(--paper); border-radius: 8px; padding: 14px; display: flex; flex-direction: column; gap: 6px; }
+  .mine a, .thread a { color: var(--purple); font-weight: 700; overflow-wrap: anywhere; }
+  .progress { display: flex; align-items: center; gap: 10px; font-size: 14px; font-weight: 600; }
+  .dots { display: flex; gap: 6px; }
+  .dots i { width: 14px; height: 14px; border-radius: 50%; border: 2px solid var(--ink); }
+  .dots i.on { background: var(--purple); border-color: var(--purple); }
+  .threads { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 12px; }
+  .thread { border: 2px solid var(--ink); border-radius: 8px; padding: 14px; display: flex; flex-direction: column; gap: 10px; }
+  .thread.done { border-style: dashed; opacity: .7; }
+  .thread .who { font-weight: 700; }
+  .thread q { font-family: var(--display); font-size: 19px; line-height: 1.3; }
+  .thread .row { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; }
+  .empty { margin: 0; color: var(--muted); }
+  .stuck { font: 600 22px/1.3 var(--hand); color: var(--purple); margin: 0; }
+  [hidden] { display: none !important; }
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <p class="eyebrow">Generalist World · The POV Challenge</p>
+    <h1>Connecting Threads</h1>
+    <p class="lede">Drop today's post. Leave 5 comments. Comments aren't a chore, they're how you make friends here.</p>
+  </header>
+
+  <section class="code" aria-label="The comment code">
+    <div><b>Human-written</b><span>No AI comments. Ever.</span></div>
+    <div><b>Thoughtful</b><span>More than "Great post 🔥".</span></div>
+    <div><b>Share your POV</b><span>Agree, push back, add a story.</span></div>
+  </section>
+
+  <section class="panel" aria-labelledby="mine-title">
+    <div class="panel-head"><h2 id="mine-title">Your post today</h2><span class="step">step 1</span></div>
+    <div id="mine-view" class="mine" hidden>
+      <span>You're in today's feed ✨</span>
+      <a id="mine-link" target="_blank" rel="noopener">Open your post ↗</a>
+      <button class="quiet" id="edit-mine" type="button">Change it</button>
+    </div>
+    <form id="post-form" novalidate>
+      <div style="display:flex;flex-direction:column;gap:14px">
+        <label for="name">Your name<input id="name" autocomplete="name" maxlength="60" required></label>
+        <label for="url">Link to today's LinkedIn post <span class="hint">Use "Copy link to post" from the post's ··· menu</span><input id="url" type="url" inputmode="url" placeholder="https://www.linkedin.com/posts/…" required></label>
+        <label for="pov">Today's POV in one sentence <span class="hint">Optional, but it helps people pick</span><input id="pov" maxlength="200"></label>
+        <p class="error" id="post-error" role="alert" hidden></p>
+        <div><button type="submit" id="post-btn">Add my post</button></div>
+      </div>
+    </form>
+  </section>
+
+  <section class="panel" aria-labelledby="five-title">
+    <div class="panel-head"><h2 id="five-title">Your 5 for today</h2><span class="step">step 2</span></div>
+    <div class="progress"><span class="dots" id="dots" aria-hidden="true"></span><span id="progress-text">0 of 5 threads connected</span></div>
+    <ul class="threads" id="threads"></ul>
+    <p class="empty" id="empty" hidden>No posts to serve yet. Check back once a few more people have posted.</p>
+    <p class="error" id="feed-error" role="alert" hidden></p>
+    <div><button class="quiet" id="more" type="button" hidden>Serve me 5 more</button></div>
+  </section>
+
+  <p class="stuck">Stuck? "This made me think of…" · "I'd push back on…" · "In my experience…"</p>
+</main>
+
+<script>
+(() => {
+  const $ = (id) => document.getElementById(id);
+  const store = {
+    get(k) { try { return localStorage.getItem(k); } catch { return null; } },
+    set(k, v) { try { localStorage.setItem(k, v); } catch {} },
+  };
+
+  let me = store.get("ct-id");
+  if (!me || !/^[a-z0-9]{12,40}$/i.test(me)) {
+    me = Array.from(crypto.getRandomValues(new Uint8Array(12)), (b) => b.toString(16).padStart(2, "0")).join("");
+    store.set("ct-id", me);
+  }
+  $("name").value = store.get("ct-name") || "";
+
+  let served = [];
+  const connected = new Set();
+  let done = 0;
+
+  async function api(path, body) {
+    const res = await fetch("/api/" + path, body
+      ? { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ ...body, userId: me }) }
+      : undefined);
+    const data = await res.json().catch(() => ({}));
+    if (!res.ok) throw new Error(data.error || "Something went wrong. Try again.");
+    return data;
+  }
+
+  function showError(el, msg) { el.textContent = msg || ""; el.hidden = !msg; }
+
+  function renderMine(mine) {
+    $("mine-view").hidden = !mine;
+    $("post-form").hidden = !!mine;
+    if (mine) {
+      $("mine-link").href = mine.url;
+      $("url").value = mine.url;
+      $("pov").value = mine.pov || "";
+    }
+  }
+
+  function renderProgress() {
+    const n = Math.min(done, 5);
+    $("dots").replaceChildren(...Array.from({ length: 5 }, (_, i) => {
+      const dot = document.createElement("i");
+      if (i < n) dot.className = "on";
+      return dot;
+    }));
+    $("progress-text").textContent = done >= 5
+      ? `${done} threads connected. You're done for today 🎉`
+      : `${done} of 5 threads connected`;
+  }
+
+  function renderThreads() {
+    $("threads").replaceChildren(...served.map((p) => {
+      const li = document.createElement("li");
+      const isDone = connected.has(p.id);
+      li.className = "thread" + (isDone ? " done" : "");
+
+      const who = document.createElement("span");
+      who.className = "who";
+      who.textContent = p.name;
+      li.append(who);
+
+      if (p.pov) {
+        const q = document.createElement("q");
+        q.textContent = p.pov;
+        li.append(q);
+      }
+
+      const row = document.createElement("div");
+      row.className = "row";
+      const link = document.createElement("a");
+      link.href = p.url;
+      link.target = "_blank";
+      link.rel = "noopener";
+      link.textContent = "Open post ↗";
+      const btn = document.createElement("button");
+      btn.type = "button";
+      btn.disabled = isDone;
+      btn.textContent = isDone ? "Thread connected ✓" : "I left a comment";
+      btn.addEventListener("click", async () => {
+        btn.disabled = true;
+        try {
+          await api("done", { postId: p.id });
+          connected.add(p.id);
+          done += 1;
+          renderProgress();
+          renderThreads();
+        } catch (err) {
+          btn.disabled = false;
+          showError($("feed-error"), err.message);
+        }
+      });
+      row.append(link, btn);
+      li.append(row);
+      return li;
+    }));
+    $("empty").hidden = served.length > 0;
+    $("more").hidden = served.length === 0 || !served.every((p) => connected.has(p.id));
+  }
+
+  async function load() {
+    showError($("feed-error"), "");
+    try {
+      const data = await api("feed?me=" + encodeURIComponent(me));
+      renderMine(data.mine);
+      served = data.serve;
+      connected.clear();
+      done = data.done;
+      renderProgress();
+      renderThreads();
+    } catch (err) {
+      showError($("feed-error"), err.message);
+    }
+  }
+
+  $("post-form").addEventListener("submit", async (e) => {
+    e.preventDefault();
+    showError($("post-error"), "");
+    const name = $("name").value.trim();
+    store.set("ct-name", name);
+    $("post-btn").disabled = true;
+    try {
+      await api("post", { name, url: $("url").value.trim(), pov: $("pov").value.trim() });
+      await load();
+    } catch (err) {
+      showError($("post-error"), err.message);
+    } finally {
+      $("post-btn").disabled = false;
+    }
+  });
+
+  $("edit-mine").addEventListener("click", () => {
+    $("mine-view").hidden = true;
+    $("post-form").hidden = false;
+    $("url").focus();
+  });
+  $("more").addEventListener("click", load);
+
+  renderProgress();
+  load();
+})();
+</script>
+</body>
+</html>
